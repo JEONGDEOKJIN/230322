@@ -391,6 +391,3 @@ window.onkeydown = function(event) {
         e.preventDefault();
     }
         // 😥😥😥😥😥😥 이거 확인을 잘 못 함. 
-
-
-
