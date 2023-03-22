@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        
+        .container {
+            width: 800px;
+            height: 800px;
+            border: 1px solid;
+
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+
+        .box {
+            width: 400px;
+            height: 400px;
+            border: 1px solid red;
+            
+            /* border 값 까지 포함해서 계산하는것 */
+            box-sizing: border-box;
+        }
+
+        #item {
+            width: 100%;
+            height: 100%;
+            background-color: lightgreen;
+        }
+
+    </style>
+
+</head>
+<body>
+    
+
+    <div class="container">
+
+        <div class="box">
+            
+            <!-- 드래그를 허용해주는 어트리뷰트 속성 / true, false 로 설정하면 됨 ⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐ -->
+            <div id="item" draggable="true" class="item">    </div>
+
+        </div>
+        <div class="box">        </div>
+        <div class="box">        </div>
+        <div class="box">        </div>
+
+    </div>
+
+</body>
+
+<script>
+
+    // null : 값을 비워둘 때 사용 / 개발자가 사용하는 특수값 / 값을 비워두었다고 알려줌 ⭐⭐⭐  
+    let _target = null;
+
+    // 드래그가 시작되었을 때, 이벤트가 들어감 ⭐⭐⭐ 
+        // ondragstart : 드래그가 시작될 때 
+
+        document.ondragstart = function(event) {
+
+            // 이벤트 타겟이 item 클래스가 있은 태그면!!! 실행 
+            if(event.target.classList.contains("item")) {
+                console.log(event.target)
+                    //클래스에 붙은 놈만 찍는다
+
+                // 전역 변수로 사용하기 / 드래그할 태그를 전역공간에 담는다. ⭐⭐⭐⭐⭐
+                _target = event.target
+                
+                // event.target.style : 태그의 스타일 값을 추가할 수 있음.
+                // event.target.style 안에 적용시킬 스타일의 키값에 '스타일값' 을 추가해주면 된다. ⭐⭐⭐⭐⭐  
+                console.log(event.target.style);
+                    // 지금 드래그 한 놈의 sytle모든 값을 볼 수 있어 ⭐⭐⭐⭐⭐⭐ 
+                    // 그 중 하나를 잡고 > 넣으면 > 변경 된다 ⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐ 
+                    // 다만, css 에서 작성하던 이름과는 좀 달라 ⭐⭐⭐⭐⭐ (카멜로 써야 함)
+                        // background-color -> backgroundColor
+                            // - 하이픈 뒤 '한 글자만' 대문자로 바꾸면 된다. ⭐⭐⭐⭐⭐ 
+                event.target.style.backgroundColor = "red"; 
+
+            }
+        }
+
+
+        // ondragend : 드래그가 끝났을 때,  
+        document.ondragend = function(event) {
+
+
+
+            // 드래그 끝났어~ 나 놓아라~ 비워줘~~~~~ ⭐⭐⭐⭐⭐⭐ 
+                // 끝났으니까 초기화~~~
+            _target = null;
+
+            // '드래그 한 이벤트 타겟'이 'item 클래스' 가 있는 '태그' 였으면, > 실행되게 ⭐⭐⭐⭐⭐
+            if (event.target.classList.contains("item")) {
+
+                // 처음 입혀줬던 색으로 다시 변경 
+                event.target.style.backgroundColor = "lightgreen"
+            }
+            
+        }
+
+
+    // ondragenter : drag 하고 태그의 위에 올려졌을 때, enter 와 leave
+        document.ondragenter = function(event) {
+
+            // _target 은 전역변수니까 ⭐⭐⭐⭐⭐⭐
+            // 1) event.target 이 box 클래스를 가지고 있고, 2) _target 이 비어있지 않을때!!!  
+            // && 니까, 두 조건이 모두, true 여야, 조건이 실행 ⭐⭐⭐ 
+
+            // 다른 애 잡으면 -> _target 에 안 들어가 
+            // 딱 그놈 잡으몬 -> _target 에 들어가
+            if(event.target.classList.contains('box') && _target !== null) {
+                event.target.style.backgroundColor = "blue"
+            }
+        }
+
+
+
+    // ondragleave : 드래그 하다가 (enter 되었다가) > 빠져나갔을 때 
+    document.ondragleave = function(event) {
+        if(event.target.classList.contains('box') && _target !== null) {
+                // 배경을 투명으로 변경⭐⭐⭐ 
+                event.target.style.backgroundColor = "transparant";
+            }
+    }
+
+    // 브라우저에 드롭이 있어서, 그걸 없애고, 들어가야 함 ⭐⭐⭐ 이게 있어야 드롭 가능
+        // 기본 동작을 지워야 하는 이유는? 
+            // form 태그 하다가, 새로고침 되는 현상이 발생. 이 이유는 form 태그를 지웠어야 함. 
+            // 기본 동작을 제거해주는 역할이 preventDefault
+
+    // ondragover : 드롭하고, 그 대상이 드롭 가능한지 여부를 설정해준다. ⭐⭐⭐
+    document.ondragover = function(event) {
+        if (event.target.classList.contains('box') && _target != null) {
+
+            // preventDefault : 기본 동작을 없애준다. 
+                // / 브라우저에서 기본적으로 제공하는 기능을 없애준다. ⭐⭐
+            event.preventDefault();
+
+        }
+    }
+        // [응용]
+            // 게시판 위치, 페이지 변경 같은거
+
+
+
+
+    // ondrop : 드래그를 하다가, 마우스 버튼을 떼면, 드롭! 
+       document.ondrop = function(event) {
+
+            if (event.target.classList.contains("box") && _target != null ) {
+
+                event.target.style.backgroundColor = "transparant";
+                
+                // 원하는 위치에, 내용으로, 해당 태그를, 이동시킬 수 있다.
+                // 지금 box 클래스를 가진애가 target 임.   
+                event.target.append(_target); 
+            }
+       } 
+
+
+//🔷 기본동작을 취소하는 방법 
+    _button.onclick = function(event) {
+
+        
+
+    }
+
+
+
+
+</script>
+
+</html>
