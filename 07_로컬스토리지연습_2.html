@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+
+    <p>
+        localStorage 에서 저장한 내용을 다른 페이지에서 볼 수 있는지 테스트~
+    </p>
+
+
+</body>
+
+
+    <script>
+
+        // 해당 key 값을 넣어주면 볼 수 있어. 
+        // [실익]
+            // 전역변수는 그 페이지에서만 작동하는데, 로컬 스토리지를 사용하면, '페이지 간' 데이터를 주고 받을 수 있어.
+            // 그래서, 이 사람이 로그인 페이지에서 어떤 행동을 했는지를 반영해서 > 뒤에 몬스터를 다르게 만들거나, 상품 진열을 다르게 하거나 하는 등을 할 수 있어 ⭐⭐⭐⭐⭐ 
+        console.log(window.localStorage.getItem("key_from_html1"));
+
+        
+    </script>
+
+</html>
