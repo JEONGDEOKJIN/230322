@@ -8,7 +8,7 @@
 // DOM 트리의 기본 단위는 노드라고 해요.
 
 // 문자를 태그사이에 넣어서 태그를 추가하는 방법
-// document.querySelector('.add_class').innerHTML = "<div>태그 내용</div>";
+document.querySelector('.add_class').innerHTML = "<div>태그 내용</div>";
 //
 
 // 노드에 추가 하는방법
